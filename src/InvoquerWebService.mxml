@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.ObjectUtil;
+
+			protected function webservice1_resultHandler(event:ResultEvent):void
+			{
+				var result:ArrayCollection = event.result as ArrayCollection;
+				
+				Alert.show( ObjectUtil.toString( result.getItemAt(2) ) );
+				
+			}
+
+
+			protected function webservice1_faultHandler(event:FaultEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:WebService id="service" wsdl="http://www.rightactionscript.com/states/webservice/StatesService.php?wsdl"
+					  result="webservice1_resultHandler(event)"
+					  fault="webservice1_faultHandler(event)"
+					  >
+			<s:operation name="getCountries" />
+		</s:WebService>
+	</fx:Declarations>
+	
+	
+	<s:Button label="Invoquer getCountries()" top="100" left="100"
+			  click="service.getOperation('getCountries').send()" />
+	
+</s:Application>
